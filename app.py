@@ -5,15 +5,20 @@ from modules.crypto import encrypt_aes, decrypt_aes
 from modules.stego import encode_stego, decode_stego
 
 app = Flask(__name__)
-app.secret_key = "kunci_rahasia_udayana"
+app.secret_key = os.environ.get("SECRET_KEY", "kunci_rahasia_udayana")
 
-# Setup Folder Upload
+# ── Upload folder ──────────────────────────────────────────────────────────────
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'static', 'uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+# ── Init DB saat startup ───────────────────────────────────────────────────────
 with app.app_context():
     init_db()
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  ROUTES
+# ══════════════════════════════════════════════════════════════════════════════
 
 @app.route('/')
 def dashboard():
@@ -23,14 +28,21 @@ def dashboard():
 @app.route('/hybrid/encode', methods=['GET', 'POST'])
 def hybrid_encode():
     if request.method == 'POST':
-        msg, pwd, file = request.form.get('message'), request.form.get('password'), request.files.get('image')
+        msg  = request.form.get('message')
+        pwd  = request.form.get('password')
+        file = request.files.get('image')
         try:
             cipher = encrypt_aes(msg, pwd)
             stego_img, psnr, ssim = encode_stego(file.read(), cipher)
             filename = f"hybrid_{uuid.uuid4().hex[:6]}.png"
             tambah_riwayat("Hybrid Encode", filename, psnr, ssim)
             flash(f"Berhasil! PSNR: {psnr} dB | SSIM: {ssim}", "success")
-            return send_file(io.BytesIO(stego_img), mimetype='image/png', as_attachment=True, download_name=filename)
+            return send_file(
+                io.BytesIO(stego_img),
+                mimetype='image/png',
+                as_attachment=True,
+                download_name=filename
+            )
         except Exception as e:
             flash(str(e), "danger")
     return render_template('hybrid_encode.html')
@@ -40,7 +52,8 @@ def hybrid_encode():
 def hybrid_decode():
     result = None
     if request.method == 'POST':
-        pwd, file = request.form.get('password'), request.files.get('image')
+        pwd  = request.form.get('password')
+        file = request.files.get('image')
         try:
             cipher = decode_stego(file.read())
             result = decrypt_aes(cipher, pwd)
@@ -56,7 +69,10 @@ def crypto_encode():
     result = None
     if request.method == 'POST':
         try:
-            result = encrypt_aes(request.form.get('message'), request.form.get('password'))
+            result = encrypt_aes(
+                request.form.get('message'),
+                request.form.get('password')
+            )
             tambah_riwayat("Crypto Encode")
         except Exception as e:
             flash(str(e), "danger")
@@ -68,7 +84,10 @@ def crypto_decode():
     result = None
     if request.method == 'POST':
         try:
-            result = decrypt_aes(request.form.get('ciphertext'), request.form.get('password'))
+            result = decrypt_aes(
+                request.form.get('ciphertext'),
+                request.form.get('password')
+            )
             tambah_riwayat("Crypto Decode")
         except Exception as e:
             flash(str(e), "danger")
@@ -79,11 +98,19 @@ def crypto_decode():
 def stego_encode():
     if request.method == 'POST':
         try:
-            stego_img, psnr, ssim = encode_stego(request.files.get('image').read(), request.form.get('message'))
+            stego_img, psnr, ssim = encode_stego(
+                request.files.get('image').read(),
+                request.form.get('message')
+            )
             filename = f"stego_{uuid.uuid4().hex[:6]}.png"
             tambah_riwayat("Stego Encode", filename, psnr, ssim)
             flash(f"Berhasil menyisipkan pesan! PSNR: {psnr} dB | SSIM: {ssim}", "success")
-            return send_file(io.BytesIO(stego_img), mimetype='image/png', as_attachment=True, download_name=filename)
+            return send_file(
+                io.BytesIO(stego_img),
+                mimetype='image/png',
+                as_attachment=True,
+                download_name=filename
+            )
         except Exception as e:
             flash(str(e), "danger")
     return render_template('stego_encode.html')
@@ -94,8 +121,9 @@ def stego_decode():
     result = None
     if request.method == 'POST':
         try:
-            result = decode_stego(request.files.get('image').read())
-            tambah_riwayat("Stego Decode", request.files.get('image').filename)
+            file = request.files.get('image')
+            result = decode_stego(file.read())
+            tambah_riwayat("Stego Decode", file.filename)
         except Exception as e:
             flash(str(e), "danger")
     return render_template('stego_decode.html', result=result)
@@ -105,5 +133,6 @@ def stego_decode():
 def riwayat():
     return render_template('riwayat.html', data=ambil_riwayat())
 
+# ══════════════════════════════════════════════════════════════════════════════
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

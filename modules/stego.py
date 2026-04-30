@@ -1,8 +1,8 @@
 import io
 import numpy as np
 from PIL import Image
-from skimage.metrics import peak_signal_noise_ratio as psnr_func
-from skimage.metrics import structural_similarity as ssim_func
+from skimage.metrics import peak_signal_noise_ratio as psnr_func # type: ignore
+from skimage.metrics import structural_similarity as ssim_func # type: ignore
 
 DELIMITER = b'\x00\xFF\xAA\x55\xDE\xAD\xBE\xEF'
 
