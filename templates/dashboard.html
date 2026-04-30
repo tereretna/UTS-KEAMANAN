@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mb-4">
+    <h2 class="fw-bold mb-1" style="color: var(--text-dark);">Overview Sistem</h2>
+    <p class="text-muted">Platform Keamanan Data Multi-Layer</p>
+</div>
+
+<h5 class="fw-bold mb-3" style="color: var(--primary-blue);">Fitur Utama (Hybrid)</h5>
+<div class="row mb-5">
+    <div class="col-md-6 mb-3">
+        <a href="/hybrid/encode" class="text-decoration-none">
+            <div class="card-custom p-4 text-center h-100" style="background: linear-gradient(135deg, var(--primary-blue), var(--primary-green)); border: none; transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                <i class="bi bi-shield-lock text-white mb-3" style="font-size: 3rem;"></i>
+                <h4 class="text-white fw-bold">Hybrid Encode</h4>
+                <p class="text-white-50 mb-0">AES-256 + Steganografi Citra</p>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-6 mb-3">
+        <a href="/hybrid/decode" class="text-decoration-none">
+            <div class="card-custom p-4 text-center h-100" style="border: 2px solid var(--primary-green); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                <i class="bi bi-shield-check mb-3" style="font-size: 3rem; color: var(--primary-green);"></i>
+                <h4 class="fw-bold" style="color: var(--primary-green);">Hybrid Decode</h4>
+                <p class="text-muted mb-0">Ekstrak & Dekripsi Pesan</p>
+            </div>
+        </a>
+    </div>
+</div>
+
+<h5 class="fw-bold mb-3 text-muted">Akses Modul Individual</h5>
+<div class="row">
+    <div class="col-md-3 mb-3"><a href="/crypto/encode" class="btn btn-outline-custom w-100 py-3 text-start shadow-sm"><i class="bi bi-key text-primary me-2"></i> Kriptografi Encode</a></div>
+    <div class="col-md-3 mb-3"><a href="/crypto/decode" class="btn btn-outline-custom w-100 py-3 text-start shadow-sm"><i class="bi bi-key-fill text-primary me-2"></i> Kriptografi Decode</a></div>
+    <div class="col-md-3 mb-3"><a href="/stego/encode" class="btn btn-outline-custom w-100 py-3 text-start shadow-sm"><i class="bi bi-image text-success me-2"></i> Steganografi Encode</a></div>
+    <div class="col-md-3 mb-3"><a href="/stego/decode" class="btn btn-outline-custom w-100 py-3 text-start shadow-sm"><i class="bi bi-search text-success me-2"></i> Steganografi Decode</a></div>
+</div>
+{% endblock %}

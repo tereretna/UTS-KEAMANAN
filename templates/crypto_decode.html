@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="fw-bold mb-4">Kriptografi AES-256: Decode</h3>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card-custom">
+            <div class="card-header-custom"><i class="bi bi-file-earmark-lock me-2"></i> Input Ciphertext</div>
+            <div class="p-4">
+                <form method="POST" action="/crypto/decode">
+                    <div class="mb-4">
+                        <label class="form-label">Teks Terenkripsi (Base64)</label>
+                        <textarea name="ciphertext" class="form-control" rows="4" required></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Password Dekripsi</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary-custom w-100 py-2">Dekripsi ke Plaintext</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        {% if result %}
+        <div class="card-custom" style="border: 1px solid var(--primary-green);">
+            <div class="card-header-custom text-success"><i class="bi bi-file-earmark-check me-2"></i> Teks Asli (Plaintext)</div>
+            <div class="p-4">
+                <textarea class="form-control" style="background-color: #f0fdf4; border-color: #86efac; color: #166534;" rows="6" readonly>{{ result }}</textarea>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

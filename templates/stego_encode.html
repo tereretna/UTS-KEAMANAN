@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="fw-bold mb-4">Steganografi Citra: Encode (Murni)</h3>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card-custom">
+            <div class="card-header-custom"><i class="bi bi-image me-2"></i> Sembunyikan Pesan</div>
+            <div class="p-4">
+                <form method="POST" action="/stego/encode" enctype="multipart/form-data">
+                    <div class="mb-4">
+                        <label class="form-label">Pesan (Plaintext)</label>
+                        <textarea name="message" class="form-control" rows="4" required></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Gambar Cover (PNG/JPG)</label>
+                        <input type="file" name="image" class="form-control bg-white" accept=".png,.jpg,.jpeg" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary-custom w-100 py-2">Sembunyikan & Unduh</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card-custom">
+            <div class="p-4">
+                <h5 class="fw-bold mb-2 text-muted"><i class="bi bi-info-circle me-2"></i> Info Modul</h5>
+                <p class="text-muted" style="line-height: 1.6;">Fitur ini menggunakan teknik steganografi spasial (LSB) dan frekuensi (DCT) murni <strong>tanpa perlindungan AES-256</strong>. Metrik evaluasi kualitas (PSNR/SSIM) akan muncul di notifikasi setelah proses berhasil dijalankan.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

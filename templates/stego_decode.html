@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="fw-bold mb-4">Steganografi Citra: Decode (Murni)</h3>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card-custom">
+            <div class="card-header-custom"><i class="bi bi-search me-2"></i> Ekstrak File Stego</div>
+            <div class="p-4">
+                <form method="POST" action="/stego/decode" enctype="multipart/form-data">
+                    <div class="mb-4">
+                        <label class="form-label">Upload Gambar Stego (PNG)</label>
+                        <input type="file" name="image" class="form-control bg-white" accept=".png" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary-custom w-100 py-2">Ekstrak Pesan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        {% if result %}
+        <div class="card-custom" style="border: 1px solid var(--primary-green);">
+            <div class="card-header-custom text-success"><i class="bi bi-chat-text me-2"></i> Pesan Terekstrak</div>
+            <div class="p-4">
+                <textarea class="form-control" style="background-color: #f0fdf4; border-color: #86efac; color: #166534;" rows="5" readonly>{{ result }}</textarea>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

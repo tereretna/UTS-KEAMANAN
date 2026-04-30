@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="fw-bold mb-4">Fitur Utama: Hybrid Encode</h3>
+<div class="row">
+    <div class="col-md-7">
+        <div class="card-custom">
+            <div class="card-header-custom"><i class="bi bi-sliders me-2"></i> Parameter Penyisipan</div>
+            <div class="p-4">
+                <form method="POST" action="/hybrid/encode" enctype="multipart/form-data">
+                    <div class="mb-4">
+                        <label class="form-label">Pesan Rahasia (Plaintext)</label>
+                        <textarea name="message" class="form-control" rows="4" placeholder="Ketik pesan rahasia di sini..." required></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Kata Kunci (Password AES-256)</label>
+                        <input type="password" name="password" class="form-control" placeholder="Gunakan password yang kuat" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Gambar Cover (PNG/JPG)</label>
+                        <input type="file" name="image" class="form-control bg-white" accept=".png,.jpg,.jpeg" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary-custom w-100 py-2"><i class="bi bi-cloud-arrow-down me-2"></i> Proses & Unduh Gambar Stego</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card-custom" style="border-top: 4px solid var(--primary-green);">
+            <div class="p-4">
+                <h5 class="fw-bold mb-3" style="color: var(--primary-green);">Alur Proses Terintegrasi</h5>
+                <ul class="text-muted" style="font-size: 0.95rem; line-height: 1.8;">
+                    <li><i class="bi bi-check2-circle text-success me-2"></i> Pesan teks dienkripsi menjadi Ciphertext.</li>
+                    <li><i class="bi bi-check2-circle text-success me-2"></i> Ciphertext disisipkan ke piksel gambar (Hybrid LSB & DCT).</li>
+                    <li><i class="bi bi-check2-circle text-success me-2"></i> Evaluasi otomatis PSNR & SSIM.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

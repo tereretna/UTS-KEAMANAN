@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoStego Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="d-flex">
+        <div class="sidebar p-4" style="width: 280px; flex-shrink: 0;">
+            <h4 class="fw-bold mb-4" style="color: var(--primary-green);">
+                <i class="bi bi-shield-check"></i> CryptoStego
+            </h4>
+            
+            <div class="nav flex-column">
+                <a href="/" class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}">
+                    <i class="bi bi-grid-1x2"></i> Dashboard
+                </a>
+                
+                <hr style="border-color: var(--border-color); margin: 15px 0;">
+                <small class="text-muted fw-bold mb-2" style="font-size: 0.75rem; letter-spacing: 0.5px;">FITUR UTAMA</small>
+                <a href="/hybrid/encode" class="nav-link {% if request.endpoint == 'hybrid_encode' %}active{% endif %}">
+                    <i class="bi bi-lock-fill"></i> Hybrid Encode
+                </a>
+                <a href="/hybrid/decode" class="nav-link {% if request.endpoint == 'hybrid_decode' %}active{% endif %}">
+                    <i class="bi bi-unlock-fill"></i> Hybrid Decode
+                </a>
+                
+                <hr style="border-color: var(--border-color); margin: 15px 0;">
+                <small class="text-muted fw-bold mb-2" style="font-size: 0.75rem; letter-spacing: 0.5px;">MODUL INDIVIDUAL</small>
+                <a href="/crypto/encode" class="nav-link {% if request.endpoint == 'crypto_encode' %}active{% endif %}">
+                    <i class="bi bi-key"></i> Crypto Encode
+                </a>
+                <a href="/crypto/decode" class="nav-link {% if request.endpoint == 'crypto_decode' %}active{% endif %}">
+                    <i class="bi bi-key-fill"></i> Crypto Decode
+                </a>
+                <a href="/stego/encode" class="nav-link {% if request.endpoint == 'stego_encode' %}active{% endif %}">
+                    <i class="bi bi-image"></i> Stego Encode
+                </a>
+                <a href="/stego/decode" class="nav-link {% if request.endpoint == 'stego_decode' %}active{% endif %}">
+                    <i class="bi bi-search"></i> Stego Decode
+                </a>
+                
+                <hr style="border-color: var(--border-color); margin: 15px 0;">
+                <a href="/riwayat" class="nav-link {% if request.endpoint == 'riwayat' %}active{% endif %}">
+                    <i class="bi bi-clock-history"></i> Riwayat Operasi
+                </a>
+            </div>
+        </div>
+
+        <div class="main-content w-100">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm" role="alert">
+                            {% if category == 'success' %}<i class="bi bi-check-circle-fill me-2"></i>
+                            {% elif category == 'danger' %}<i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            {% else %}<i class="bi bi-info-circle-fill me-2"></i>{% endif %}
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

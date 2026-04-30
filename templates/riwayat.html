@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="fw-bold mb-4">Riwayat Operasi Sistem</h3>
+<div class="card-custom">
+    <div class="card-header-custom d-flex justify-content-between align-items-center">
+        <span><i class="bi bi-server me-2"></i> Data Log SQLite</span>
+    </div>
+    <div class="p-0">
+        <div class="table-responsive">
+            <table class="table table-hover table-custom mb-0">
+                <thead>
+                    <tr>
+                        <th class="ps-4">No</th>
+                        <th>Waktu Eksekusi</th>
+                        <th>Jenis Fitur</th>
+                        <th>Nama File</th>
+                        <th>PSNR (dB)</th>
+                        <th>SSIM</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                    <tr>
+                        <td class="ps-4 text-muted">{{ loop.index }}</td>
+                        <td class="text-muted">{{ row.waktu }}</td>
+                        <td><span class="badge bg-light text-primary border border-primary">{{ row.fitur }}</span></td>
+                        <td>{{ row.nama_file }}</td>
+                        <td>{% if row.psnr %}<span class="text-success fw-bold">{{ row.psnr }}</span>{% else %}-{% endif %}</td>
+                        <td>{% if row.ssim %}<span class="text-success fw-bold">{{ row.ssim }}</span>{% else %}-{% endif %}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center text-muted py-4">Belum ada aktivitas terekam.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
